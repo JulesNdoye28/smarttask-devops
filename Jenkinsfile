@@ -22,7 +22,7 @@ pipeline {
                 sh "docker build -t ${DOCKERHUB_USER}/smarttask-backend:${IMAGE_TAG} ./backend"
                 sh "docker build -t ${DOCKERHUB_USER}/smarttask-frontend:${IMAGE_TAG} ./frontend"
                 sh "docker build --pull -t ${DOCKERHUB_USER}/smarttask-db:${IMAGE_TAG} ./db"
-S            }
+            }
         }
 
         stage('Security Scan - Trivy') {

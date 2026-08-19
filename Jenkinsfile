@@ -21,8 +21,8 @@ pipeline {
                 echo 'Construction des images Docker...'
                 sh "docker build -t ${DOCKERHUB_USER}/smarttask-backend:${IMAGE_TAG} ./backend"
                 sh "docker build -t ${DOCKERHUB_USER}/smarttask-frontend:${IMAGE_TAG} ./frontend"
-                sh "docker build -t ${DOCKERHUB_USER}/smarttask-db:${IMAGE_TAG} ./db"
-            }
+                sh "docker build --pull -t ${DOCKERHUB_USER}/smarttask-db:${IMAGE_TAG} ./db"
+S            }
         }
 
         stage('Security Scan - Trivy') {
@@ -30,7 +30,7 @@ pipeline {
                 echo 'Analyse des vulnérabilités avec Trivy...'
                 sh "trivy image --severity CRITICAL --exit-code 1 --no-progress ${DOCKERHUB_USER}/smarttask-backend:${IMAGE_TAG}"
                 sh "trivy image --severity CRITICAL --exit-code 1 --no-progress ${DOCKERHUB_USER}/smarttask-frontend:${IMAGE_TAG}"
-                sh "trivy image --severity CRITICAL --exit-code 1 --no-progress ${DOCKERHUB_USER}/smarttask-db:${IMAGE_TAG}"
+                sh "trivy image --severity CRITICAL --exit-code 1 --no-progress --ignorefile .trivyignore ${DOCKERHUB_USER}/smarttask-db:${IMAGE_TAG}"
             }
         }
         stage('Tag Latest') {

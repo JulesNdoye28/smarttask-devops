@@ -3,7 +3,7 @@ FROM node:20-alpine
 WORKDIR /usr/src/app
 
 # Met à jour npm pour corriger les vulnérabilités embarquées dans sa propre installation
-RUN npm install -g npm@latest
+RUN npm install -g npm@10
 
 COPY package*.json ./
 RUN npm install --omit=dev

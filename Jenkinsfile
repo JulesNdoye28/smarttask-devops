@@ -25,6 +25,14 @@ pipeline {
             }
         }
 
+        stage('Security Scan - Trivy') {
+            steps {
+                echo 'Analyse des vulnérabilités avec Trivy...'
+                sh "trivy image --severity CRITICAL --exit-code 1 --no-progress ${DOCKERHUB_USER}/smarttask-backend:${IMAGE_TAG}"
+                sh "trivy image --severity CRITICAL --exit-code 1 --no-progress ${DOCKERHUB_USER}/smarttask-frontend:${IMAGE_TAG}"
+                sh "trivy image --severity CRITICAL --exit-code 1 --no-progress ${DOCKERHUB_USER}/smarttask-db:${IMAGE_TAG}"
+            }
+        }
         stage('Tag Latest') {
             steps {
                 echo 'Attribution du tag latest en complément du tag versionné...'

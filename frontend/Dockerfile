@@ -1,7 +1,7 @@
 FROM node:20-alpine AS build
 WORKDIR /app
 
-RUN npm install -g npm@latest
+RUN npm install -g npm@10
 
 COPY package*.json ./
 RUN npm install
